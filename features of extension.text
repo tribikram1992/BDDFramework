@@ -1,0 +1,66 @@
+BDD XPath Scenario Generator – Features Summary
+1. Action Recording
+Automatic Action Detection:
+The extension injects content scripts into every web page you visit. These scripts listen for user actions such as clicks, input changes, form submissions, hovers, double-clicks, drag-and-drop, and alert/prompt/confirm popups.
+Rich Action Metadata:
+For each action, it records:
+The type of action (click, input, select, etc.)
+The most robust XPath (and other locator strategies) for the target element
+A suggested element name (based on tag, id, name, aria-label, etc.)
+Frame and window context (handles iFrames and multiple windows/tabs)
+The value entered (for input/change actions)
+Element type (button, dropdown, input, etc.)
+Timestamp and additional options (e.g., dropdown values)
+All possible locators (XPath, id, name, class, etc.) except for css, jsPath, linkText, and partialLinkText, as per latest logic
+2. Locator Suggestions and Editing
+Multiple Locator Strategies:
+When an action is recorded, the extension suggests multiple XPath locators for the target element, including:
+By id, name, class, data-attributes, and combinations thereof
+By tag and attributes (excluding style and href attributes)
+Robust XPath combinations (excluding css, jsPath, linkText, partial link text)
+User Editing:
+In the popup UI, users can:
+Select from a dropdown of suggested XPaths for each action
+Edit the XPath manually in an input field
+Name the element or change the suggested name for use in generated files
+3. Scenario Management
+URL Loading:
+Users can enter and load any URL in a new browser window directly from the extension popup. The session is tracked and actions are recorded for that session.
+Scenario Naming:
+Users can provide a descriptive name for each scenario, which is used in the generated feature and step definition files.
+Clear & Reset:
+Users can clear all recorded actions and reset the session from the popup UI.
+4. BDD Scenario and Step Generation
+Gherkin Feature File Generation:
+The extension can generate a .feature file for the recorded scenario using Gherkin syntax, mapping each recorded action to a Given/When/Then step (using appropriate keywords for action types).
+Java Step Definition Generation:
+It generates Java step definition skeletons (StepDefinition.java) for use with Cucumber, matching the steps in the feature file and using the suggested element names.
+Each step definition includes a TODO comment for implementing the actual step
+The element repository is referenced by the element's suggested name
+5. Object Repository & Data Mapping
+Object Repository JSON:
+The extension generates a JSON file mapping each element’s suggested name to its primary locator and additional context (type, frame, etc.).
+Test Data Mapping:
+It generates a data mapping file that maps suggested element names to actual values entered during recording.
+Full Action Export:
+All recorded actions can be exported as a JSON array for further processing or audit.
+6. Advanced Handling
+Alert/Prompt/Confirm:
+Automatically captures browser alert, confirm, and prompt dialogs, including their text and user response.
+Frame & Window Awareness:
+The extension is aware of iFrames and multiple windows/tabs, capturing frame paths and window identifiers for every action.
+Hover Action Recording (with Logic):
+Hovers are recorded only if no click follows within a short interval, to avoid redundant steps.
+Only user-triggered events (not programmatically triggered ones) are recorded.
+7. UI/UX Features
+Popup Interface:
+Visual list of all recorded actions for the current session.
+Dropdown and input for locator selection/editing.
+Editable element names.
+Buttons for loading a URL, clearing actions, generating files, and exporting JSON.
+Scenario name input and validation.
+8. State Management & Persistence
+Session-Based Recording:
+Each scenario/session is tracked using a unique session ID.
+Chrome Storage:
+All actions, scenario names, and URLs are saved in chrome.storage.local, ensuring persistence across popup opens/closes and page reloads.
